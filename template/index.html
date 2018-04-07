@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Vuetify Blog Starter</title>
+  <title>Jocelyn David</title>
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
   <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
@@ -18,17 +18,11 @@
               <v-avatar size="125px">
                 <img
                   class="img-circle elevation-7 mb-1"
-                  src="https://raw.githubusercontent.com/vuetifyjs/docs/dev/static/doc-images/lists/1.jpg"
+                  src="https://avatars2.githubusercontent.com/u/2451982?s=460&v=4"
                 >
               </v-avatar>
-              <div class="headline">John <span style="font-weight:bold">Carter</span></div>
-              <div class="subheading text-xs-center grey--text pt-1 pb-3">Lorem ipsum dolor sit amet</div>
-              <v-layout justify-space-between>
-                <a href="javascript:;" class="body-2">Home</a>
-                <a href="javascript:;" class="body-2">About</a>
-                <a href="javascript:;" class="body-2">Github</a>
-                <a href="javascript:;" class="body-2">Other</a>
-              </v-layout>
+              <div class="headline">Jocelyn <span style="font-weight:bold">David</span></div>
+              <div class="subheading text-xs-center grey--text pt-1 pb-3">Freelance – Lead Developer Android – Guitariste – Grimpeur</div>
             </div>
           </v-flex>
           <v-flex xs12 md5 offset-md2>
@@ -39,32 +33,44 @@
                   height="170px"
                   :src="post.imgUrl"
                 >
-                  <v-container fill-height fluid>
-                    <v-layout>
-                      <v-flex xs12 align-end d-flex>
-                        <span class="headline">{{ post.title }}</span>
-                      </v-flex>
-                    </v-layout>
-                  </v-container>
                 </v-card-media>
+                <v-card-title primary-title>
+                  <h3 class="headline mb-0">{{ post.title }}</h3>
+                </v-card-title>
                 <v-card-text>
                   {{ post.content }}
                 </v-card-text>
+                <div>
+                    <v-chip v-for="tag in post.tags" text-color="white">{{tag}}</v-chip>
+                </div>
                 <v-card-actions>
-                  <v-btn icon class="red--text">
-                    <v-icon medium>fa-reddit</v-icon>
+                <v-btn icon @click.native="redirectTo(post.sourceCode)">
+                    <v-icon>
+                      fas fa-code
+                    </v-icon>
                   </v-btn>
-                  <v-btn icon class="light-blue--text">
-                    <v-icon medium>fa-twitter</v-icon>
-                  </v-btn>
-                  <v-btn icon class="blue--text text--darken-4">
-                    <v-icon medium>fa-facebook</v-icon>
+                
+                  <v-btn icon @click.native="redirectTo(post.url)">
+                    <v-icon>
+                      fab fa-google-play
+                    </v-icon>
                   </v-btn>
                   <v-spacer></v-spacer>
-                  <v-btn flat class="blue--text">Read More</v-btn>
+                  <v-btn icon @click.native="post.show = !post.show">
+                    <v-icon>{{ post.show ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}</v-icon>
+                  </v-btn>
                 </v-card-actions>
+                <v-slide-y-transition>
+                  <v-card-title v-show="post.show">
+                    <div>
+                      <ul v-for="item in post.details">
+                        <li>{{item}}</li>
+                      </ul>
+                    </div>
+                  </v-card-text>
+                </v-slide-y-transition>
               </v-card>
-            </div>
+              </div>
           </v-flex>
         </v-layout>
       </v-container>
@@ -86,27 +92,54 @@
  <script src="https://unpkg.com/vue/dist/vue.js"></script>
  <script src="https://unpkg.com/vuetify/dist/vuetify.js"></script>
  <script src="https://use.fontawesome.com/73c8e2621d.js"></script>
+ <script defer src="https://use.fontawesome.com/releases/v5.0.9/js/all.js" integrity="sha384-8iPTk2s/jMVj81dnzb/iFR2sdA7u06vHJyyLlAd4snFpCl/SnyUjRrbdJsw1pGIl" crossorigin="anonymous"></script>
  <script>
    new Vue({
     el: '#app',
+    methods: {
+      redirectTo: function(url) {
+        window.open(url)
+      },
+    },
     data () {
       return {
         title: 'Your Logo',
-        posts: [
-          {
-            title: 'Fusce ullamcorper tellus',
-            content: 'Fusce ullamcorper tellus sed maximus rutrum. Donec imperdiet ultrices maximus. Donec non tellus non neque pellentesque fermentum. Aenean in pellentesque urna.',
-            imgUrl: 'https://raw.githubusercontent.com/vuetifyjs/docs/dev/static/doc-images/cards/drop.jpg'
+        posts: [{
+            title: 'Application Décathlon Grand public',
+            content: "Au sein d'une équipe de 14 personnes, je suis en charge de l'application sur Android. Nous sommes 4 développeurs au total pour Android.",
+            details: ['Architecture de l’application Android Décathlon','UX/Ergonomie de l’application Android'],
+            tags : ['android','4.4/5'],
+            url :"https://play.google.com/store/apps/details?id=com.decathlon.app",
+            imgUrl: 'https://novajox.files.wordpress.com/2017/09/sans-titre.jpg?w=507&h=666&crop=1',
+            show: false
           },
           {
-            title: 'Donec vitae suscipit lectus, a luctus diam.',
-            content: 'Donec vitae suscipit lectus, a luctus diam. Proin vitae felis gravida, lobortis massa sit amet, efficitur erat. Morbi vel ultrices nisi.',
-            imgUrl: 'https://raw.githubusercontent.com/vuetifyjs/docs/dev/static/doc-images/cards/docks.jpg'
+            title: 'Unofficial Bitrise Client for Android',
+            content: 'Projet personnel venant de mon utilisation régulière de Bitrise. Ce client permet de se connecter à son compte et récupérer les différents fichiers générés lors des builds',
+            details: ["Utilisation de l'API de Bitrise","Téléchargement d'APK"],
+            tags :['android', 'bitrise', 'continuos delivery','mvp'],
+            sourceCode :'https://gitlab.com/Novajox/bitrise-android',
+            url :'https://play.google.com/store/apps/details?id=io.novajox.bitrise',
+            imgUrl: 'https://lh3.googleusercontent.com/mjF8KDqHOOk8P77LZoKc8XcTF9GxkyV516-8CNV_lfSBXspsqUA7edrMtAz4sByaIRg=w1899-h953',
+            show: false
           },
           {
-            title: 'Vestibulum condimentum quam',
-            content: 'At sagittis sapien vulputate. Vivamus laoreet lacus id magna rutrum dapibus. Donec vel pellentesque arcu. Maecenas mollis odio tempus felis elementum commodo.',
-            imgUrl: 'https://raw.githubusercontent.com/vuetifyjs/docs/dev/static/doc-images/cards/plane.jpg'
+            title: 'Zikobot',
+            content: 'Projet personnel suite à une envie de pouvoir me réveiller en musique. On se connecte à son compte Spotify et on peut préparer une alarme qui lance la playlist de son choix. Depuis peu, il y a également des propositions pour des artistes similaires',
+            details: ['Utilisation du SDK spotify','Alarme musicale'],
+            tags :['android', 'spotify', "mvvm"],
+            imgUrl: 'assets/zikobot.png',
+            sourceCode :'https://github.com/joxad/zikobot',
+            url :'https://play.google.com/store/apps/details?id=com.startogamu.zikobot',
+            show: false
+          },
+          {
+            title: 'My pocket Garden',
+            content: "Projet pour créer et partager les plantes de son jardin ou logement. Cela m'a permit de tester de lier une application avec une api sur Firebase Realtime Database",
+            tags :['android', 'firebase', 'lottie', 'mvp'],
+            sourceCode :'https://gitlab.com/Novajox/pocket-garden-app',
+            imgUrl: 'https://raw.githubusercontent.com/vuetifyjs/docs/dev/static/doc-images/cards/plane.jpg',
+            show: false
           }
         ]
       }
